@@ -1,0 +1,43 @@
+<div *ngFor="let item of items; let i = index">
+  <form [formGroup]="item" class="container">
+    <div>
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" required>
+        <mat-error *ngIf="item.get('name')invalid"></mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Count</mat-label>
+        <input matInput type="number" formControlName="quantity" required>
+        <mat-error *ngIf="item.get('quantity')invalid"></mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="price" required>
+        <mat-error *ngIf="item.get('price')invalid"></mat-error>
+      </mat-form-field>
+      <button mat-icon-button (click)="removeItem(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>
+<div>
+
+  <button (click)="addNewItem()" mat-button color="primary">
+    <span>+ Add new item</span>
+  </button>
+</div>
+<div>
+  <button mat-button color="primary">
+    <span>Submit</span>
+  </button>
+</div>
+
+<!-- TODO -->
+<!-- add specific error messages -->
+<!-- rwd  -->
+<!-- margins -->
+<!-- handle submit btn -->

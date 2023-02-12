@@ -1,0 +1,21 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav class="sidenav" fixedInViewport="true" [attr.role]="isHandset ? 'dialog' : 'navigation'"
+    [mode]="(isHandset | async)!.matches ? 'over' : 'side'" [opened]="!(isHandset | async)!.matches">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="'./'"> New invoice </a>
+      <a mat-list-item [routerLink]="'/preview'"> Preview invoice </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenav-content">
+    <mat-toolbar color="primary">
+      <button (click)="sidenav.toggle()" mat-icon-button type="button" aria-label="Toggle sidenav"
+        *ngIf="(isHandset | async)!.matches">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>KLG invoice generator</span>
+      <span class="menu-spacer"></span>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
