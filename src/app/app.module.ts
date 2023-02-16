@@ -1,5 +1,7 @@
+import { invoiceDataReducer } from './invoiceData/invoiceData.reducer';
+
 import { PreviewComponent } from './components/preview/preview.component';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -10,6 +12,12 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { MaterialModule } from './material.module';
 import { LayoutModule } from '@angular/cdk/layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { InvoiceStore } from './invoiceData/invoiceData.const';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { HttpClientModule } from '@angular/common/http';
+import { InvoiceDataEffects } from './invoiceData/invoiceData.effects';
 
 @NgModule({
   declarations: [
@@ -26,6 +34,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LayoutModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forRoot({
+      [InvoiceStore]: invoiceDataReducer,
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    HttpClientModule,
+    EffectsModule.forRoot(InvoiceDataEffects),
   ],
   providers: [],
   bootstrap: [AppComponent],

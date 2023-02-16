@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
-import { InvoiceForm } from 'src/app/data/data.interfaces';
+import {
+  InvoiceData,
+  InvoiceForm,
+} from 'src/app/invoiceData/invoiceData.interfaces';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { setInvoiceData } from 'src/app/invoiceData/invoiceData.actions';
 
 @Component({
   selector: 'app-form',
@@ -10,18 +16,24 @@ import { InvoiceForm } from 'src/app/data/data.interfaces';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent {
-  public formGroup: FormGroup<InvoiceForm>;
-  public items: FormGroup<InvoiceForm>[] = [];
-  constructor(private router: Router) {
+  public formArray = new FormArray<FormGroup<InvoiceForm>>([]);
+  constructor(
+    private router: Router,
+    private store: Store,
+    private snackBar: MatSnackBar
+  ) {
     this.addNewItem();
-    this.formGroup = this.getFormGroup();
   }
 
-  private getFormGroup() {
+  private getNewFormGroup() {
     return new FormGroup<InvoiceForm>({
       name: new FormControl('', {
         nonNullable: true,
-        validators: [Validators.required],
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
       }),
       quantity: new FormControl(1, {
         nonNullable: true,
@@ -32,7 +44,7 @@ export class FormComponent {
           Validators.pattern('^[0-9]*$'),
         ],
       }),
-      price: new FormControl(1, {
+      price: new FormControl(0, {
         nonNullable: true,
         validators: [
           Validators.required,
@@ -45,19 +57,31 @@ export class FormComponent {
   }
 
   public addNewItem() {
-    const newGroup = this.getFormGroup();
-    this.items.push(newGroup);
+    const newGroup = this.getNewFormGroup();
+    this.formArray.push(newGroup);
   }
 
   public removeItem(index: number) {
-    this.items.splice(index, 1);
+    this.formArray.removeAt(index);
+  }
+
+  public getFormValue(): InvoiceData[] {
+    return this.formArray.getRawValue();
   }
 
   public onSubmit() {
-    const invoiceData = {
-      items: this.items.map((item) => item.value),
-    };
+    if (this.formArray.length === 0) {
+      this.snackBar.open('add item', 'Close', {
+        duration: 3000,
+      });
+      return;
+    }
+    this.formArray.markAllAsTouched();
+    if (this.formArray.invalid) {
+      return;
+    }
 
+    this.store.dispatch(setInvoiceData({ data: this.getFormValue() }));
     this.router.navigate(['/preview']);
   }
 }

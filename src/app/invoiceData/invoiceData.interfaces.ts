@@ -6,14 +6,21 @@ export interface InvoiceForm {
   price: FormControl<number>;
 }
 
-export interface Invoice {
+export interface InvoiceData {
   name: string;
   quantity: number;
   price: number;
 }
 
 export interface InvoiceState {
+  data: InvoiceData[];
   loading: boolean;
   loaded: boolean;
-  data: Invoice[];
+  company: CompanyData | null;
+}
+
+export interface CompanyData {
+  address: string;
+  name: string;
+  phones: string[];
 }
