@@ -22,7 +22,6 @@ import {
   styleUrls: ['./preview.component.scss'],
 })
 export class PreviewComponent implements OnInit, OnDestroy {
-  // companyData$: Observable<CompanyData>;
   totalPrice: number = 0;
   displayedColumns: string[] = ['name', 'quantity', 'price'];
   dataSource = new MatTableDataSource<InvoiceData>([]);
@@ -57,5 +56,3 @@ export class PreviewComponent implements OnInit, OnDestroy {
     }, 0);
   }
 }
-
-// <!-- after route change it on drawer menu-->
