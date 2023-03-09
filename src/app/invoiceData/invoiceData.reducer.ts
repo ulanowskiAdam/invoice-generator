@@ -1,8 +1,9 @@
 import {
   clearState,
-  fetchOurCompanyData,
-  fetchOurCompanyDataFailed,
-  fetchOurCompanyDataSuccess,
+  fetchCompanyData,
+  fetchCompanyDataFailed,
+  fetchCompanyDataSuccess,
+  setClientCompanyData,
   setInvoiceData,
 } from './invoiceData.actions';
 import { createReducer, on } from '@ngrx/store';
@@ -13,6 +14,7 @@ export const initialState: InvoiceState = {
   loading: false,
   loaded: false,
   company: null,
+  clientCompany: null,
 };
 
 export const invoiceDataReducer = createReducer(
@@ -26,7 +28,16 @@ export const invoiceDataReducer = createReducer(
       loaded: true,
     };
   }),
-  on(fetchOurCompanyData, (state) => {
+  on(setClientCompanyData, (state, { data }) => {
+    return {
+      ...state,
+      clientCompany: data,
+      loading: false,
+      loaded: true,
+    };
+  }),
+
+  on(fetchCompanyData, (state) => {
     return {
       ...state,
       loading: true,
@@ -34,7 +45,7 @@ export const invoiceDataReducer = createReducer(
     };
   }),
 
-  on(fetchOurCompanyDataSuccess, (state, { data }) => {
+  on(fetchCompanyDataSuccess, (state, { data }) => {
     return {
       ...state,
       company: data,
@@ -43,7 +54,7 @@ export const invoiceDataReducer = createReducer(
     };
   }),
 
-  on(fetchOurCompanyDataFailed, (state) => {
+  on(fetchCompanyDataFailed, (state) => {
     return {
       ...state,
       loading: false,

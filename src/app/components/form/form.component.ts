@@ -16,7 +16,10 @@ import {
   InvoiceCompany,
 } from 'src/app/invoiceData/invoiceData.interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { setInvoiceData } from 'src/app/invoiceData/invoiceData.actions';
+import {
+  setClientCompanyData,
+  setInvoiceData,
+} from 'src/app/invoiceData/invoiceData.actions';
 
 @Component({
   selector: 'app-form',
@@ -145,7 +148,7 @@ export class FormComponent implements OnInit {
 
     console.log(this.getClientValue());
 
-    // this.store.dispatch(setClientData({ data: this.getClientValue() }));
+    this.store.dispatch(setClientCompanyData({ data: this.getClientValue() }));
     this.store.dispatch(setInvoiceData({ data: this.getInvoiceValue() }));
     this.router.navigate(['/preview']);
   }

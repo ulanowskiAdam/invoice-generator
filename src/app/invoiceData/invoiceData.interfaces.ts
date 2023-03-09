@@ -38,4 +38,5 @@ export interface InvoiceState {
   loading: boolean;
   loaded: boolean;
   company: InvoiceCompany | null;
+  clientCompany: InvoiceCompany | null;
 }

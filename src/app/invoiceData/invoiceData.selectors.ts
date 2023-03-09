@@ -14,3 +14,8 @@ export const selectCompanyData = createSelector(
   selectInvoiceDataState,
   (state) => state.company
 );
+
+export const selectCompanyClientData = createSelector(
+  selectInvoiceDataState,
+  (state) => state.clientCompany
+);
