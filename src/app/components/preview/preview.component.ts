@@ -6,13 +6,13 @@ import {
 import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   clearState,
-  fetchCompanyData,
+  fetchOurCompanyData,
 } from 'src/app/invoiceData/invoiceData.actions';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {
-  CompanyData,
-  InvoiceData,
+  InvoiceCompany,
+  InvoiceItem,
   InvoiceState,
 } from 'src/app/invoiceData/invoiceData.interfaces';
 
@@ -24,9 +24,9 @@ import {
 export class PreviewComponent implements OnInit, OnDestroy {
   totalPrice: number = 0;
   displayedColumns: string[] = ['name', 'quantity', 'price'];
-  dataSource = new MatTableDataSource<InvoiceData>([]);
+  dataSource = new MatTableDataSource<InvoiceItem>([]);
   private destroy$ = new Subject<void>();
-  companyData$: Observable<CompanyData | null>;
+  companyData$: Observable<InvoiceCompany | null>;
 
   constructor(private store: Store<{ invoiceData: InvoiceState }>) {
     this.companyData$ = this.store.select(selectCompanyData);
@@ -41,7 +41,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
         this.totalPrice = this.countTotalPrice(data);
       });
 
-    this.store.dispatch(fetchCompanyData());
+    this.store.dispatch(fetchOurCompanyData());
   }
 
   ngOnDestroy(): void {
@@ -50,8 +50,8 @@ export class PreviewComponent implements OnInit, OnDestroy {
     this.store.dispatch(clearState());
   }
 
-  private countTotalPrice(invoiceItems: InvoiceData[]): number {
-    return invoiceItems.reduce((total: number, item: InvoiceData) => {
+  private countTotalPrice(invoiceItems: InvoiceItem[]): number {
+    return invoiceItems.reduce((total: number, item: InvoiceItem) => {
       return total + item.quantity * item.price;
     }, 0);
   }

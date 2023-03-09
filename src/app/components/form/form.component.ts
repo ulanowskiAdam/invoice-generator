@@ -1,11 +1,19 @@
-import { Component } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import {
-  InvoiceData,
+  InvoiceItem,
   InvoiceForm,
+  CompanyFrom,
+  InvoiceCompany,
 } from 'src/app/invoiceData/invoiceData.interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { setInvoiceData } from 'src/app/invoiceData/invoiceData.actions';
@@ -15,8 +23,55 @@ import { setInvoiceData } from 'src/app/invoiceData/invoiceData.actions';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent {
-  public formArray = new FormArray<FormGroup<InvoiceForm>>([]);
+export class FormComponent implements OnInit {
+  formArray = new FormArray<FormGroup<InvoiceForm>>([]);
+  formGroup = new FormGroup<CompanyFrom>({
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(3)],
+    }),
+    taxNumber: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.pattern('^[0-9]*$')],
+    }),
+    country: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(30),
+      ],
+    }),
+    city: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(30),
+      ],
+    }),
+    street: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(30),
+      ],
+    }),
+    estate: new FormControl('', {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.maxLength(10),
+        Validators.pattern('^[0-9]*$'),
+      ],
+    }),
+    apartment: new FormControl('', {
+      nonNullable: true,
+      validators: Validators.maxLength(10),
+    }),
+  });
+
   constructor(
     private router: Router,
     private store: Store,
@@ -24,6 +79,8 @@ export class FormComponent {
   ) {
     this.addNewItem();
   }
+
+  ngOnInit(): void {}
 
   private getNewFormGroup() {
     return new FormGroup<InvoiceForm>({
@@ -65,8 +122,12 @@ export class FormComponent {
     this.formArray.removeAt(index);
   }
 
-  public getFormValue(): InvoiceData[] {
+  public getInvoiceValue(): InvoiceItem[] {
     return this.formArray.getRawValue();
+  }
+
+  public getClientValue(): InvoiceCompany {
+    return this.formGroup.getRawValue();
   }
 
   public onSubmit() {
@@ -77,11 +138,15 @@ export class FormComponent {
       return;
     }
     this.formArray.markAllAsTouched();
-    if (this.formArray.invalid) {
+    this.formGroup.markAllAsTouched();
+    if (this.formArray.invalid || this.formGroup.invalid) {
       return;
     }
 
-    this.store.dispatch(setInvoiceData({ data: this.getFormValue() }));
+    console.log(this.getClientValue());
+
+    // this.store.dispatch(setClientData({ data: this.getClientValue() }));
+    this.store.dispatch(setInvoiceData({ data: this.getInvoiceValue() }));
     this.router.navigate(['/preview']);
   }
 }

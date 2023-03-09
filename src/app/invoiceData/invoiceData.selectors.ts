@@ -7,7 +7,7 @@ export const selectInvoiceDataState =
 
 export const selectInvoiceData = createSelector(
   selectInvoiceDataState,
-  (state) => state.data
+  (state) => state.item
 );
 
 export const selectCompanyData = createSelector(

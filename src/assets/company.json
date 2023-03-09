@@ -1,6 +1,11 @@
 {
-  "name": "Some Company Polex",
-  "address": "Poland",
+  "name": "Your Company",
+  "taxNumber": "12346321",
+  "country": "Poland",
+  "city": "Szczecin",
+  "street": "Krakowska",
+  "estate": "12",
+  "apartment": "6",
   "phones": [
     "123 456 789",
     "789-456-123"

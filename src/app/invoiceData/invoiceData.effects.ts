@@ -4,9 +4,9 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { CompanyService } from '../http/company.service';
 import {
-  fetchCompanyData,
-  fetchCompanyDataFailed,
-  fetchCompanyDataSuccess,
+  fetchOurCompanyData,
+  fetchOurCompanyDataFailed,
+  fetchOurCompanyDataSuccess,
 } from './invoiceData.actions';
 
 @Injectable()
@@ -18,11 +18,13 @@ export class InvoiceDataEffects {
 
   fetchCompanyData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(fetchCompanyData),
+      ofType(fetchOurCompanyData),
       switchMap(() =>
         this.companyService.getCompanyData().pipe(
-          map((companyData) => fetchCompanyDataSuccess({ data: companyData })),
-          catchError(() => of(fetchCompanyDataFailed()))
+          map((companyData) =>
+            fetchOurCompanyDataSuccess({ data: companyData })
+          ),
+          catchError(() => of(fetchOurCompanyDataFailed()))
         )
       )
     )

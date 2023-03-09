@@ -1,7 +1,7 @@
 <div class="container" *ngIf="(companyData$ | async) as companyData">
   <h1>{{ companyData.name }}</h1>
-  <h2>{{ companyData.address }}</h2>
-  <p>Phone:{{ companyData.phones.join(", ") }}</p>
+  <h2>{{ companyData.country}}</h2>
+  <p>Phone:{{ companyData.phones?.join(", ") }}</p>
 </div>
 
 <mat-divider></mat-divider>
