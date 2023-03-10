@@ -7,14 +7,14 @@
     <mat-error *ngIf="formGroup.get('name')?.hasError('minlength')">Minimal Length is 3.</mat-error>
   </mat-form-field>
   <mat-form-field class="form-field" appearance="fill">
-    <mat-label>Tax identification number</mat-label>
+    <mat-label>Tax identify number</mat-label>
     <input matInput type="text" formControlName="taxNumber">
-    <mat-error *ngIf="formGroup.get('taxNumber')?.hasError('required')">Tax identification number is
+    <mat-error *ngIf="formGroup.get('taxNumber')?.hasError('required')">Tax identify number is
       required.</mat-error>
-    <mat-error *ngIf="formGroup.get('taxNumber')?.hasError('pattern')">Tax identification number must be a
+    <mat-error *ngIf="formGroup.get('taxNumber')?.hasError('pattern')">Tax identify number must be a
       number.</mat-error>
   </mat-form-field>
-  <p>Company Address</p>
+  <p>Client Company Address</p>
   <mat-form-field class="form-field" appearance="fill">
     <mat-label>Country</mat-label>
     <input matInput type="text" formControlName="country">
@@ -29,26 +29,29 @@
     <mat-error *ngIf="formGroup.get('city')?.hasError('minlength')">Minimal Length is 3.</mat-error>
     <mat-error *ngIf="formGroup.get('city')?.hasError('maxlength')">Maximal Length is 30.</mat-error>
   </mat-form-field>
-  <mat-form-field class="form-field" appearance="fill">
-    <mat-label>Street</mat-label>
-    <input matInput type="text" formControlName="street">
-    <mat-error *ngIf="formGroup.get('street')?.hasError('required')">Street is required.</mat-error>
-    <mat-error *ngIf="formGroup.get('street')?.hasError('minlength')">Minimal Length is 3.</mat-error>
-    <mat-error *ngIf="formGroup.get('street')?.hasError('maxlength')">Maximal Length is 30.</mat-error>
-  </mat-form-field>
-  <mat-form-field class="form-field" appearance="fill">
-    <mat-label>Estate number</mat-label>
-    <input matInput type="text" formControlName="estate">
-    <mat-error *ngIf="formGroup.get('estate')?.hasError('required')">Estate number is required.</mat-error>
-    <mat-error *ngIf="formGroup.get('estate')?.hasError('pattern')">Estate number must be a number.</mat-error>
-    <mat-error *ngIf="formGroup.get('estate')?.hasError('maxlength')">Maximal Length is 10.</mat-error>
-  </mat-form-field>
-  <mat-form-field class="form-field" appearance="fill">
-    <mat-label>Apartment number</mat-label>
-    <input matInput type="text" formControlName="apartment">
-    <mat-error *ngIf="formGroup.get('apartment')?.hasError('maxlength')">Maximal Length is 10.</mat-error>
+  <div>
 
-  </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Street</mat-label>
+      <input matInput type="text" formControlName="street">
+      <mat-error *ngIf="formGroup.get('street')?.hasError('required')">Street is required.</mat-error>
+      <mat-error *ngIf="formGroup.get('street')?.hasError('minlength')">Minimal Length is 3.</mat-error>
+      <mat-error *ngIf="formGroup.get('street')?.hasError('maxlength')">Maximal Length is 30.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Estate number</mat-label>
+      <input matInput type="text" formControlName="estate">
+      <mat-error *ngIf="formGroup.get('estate')?.hasError('required')">Estate number is required.</mat-error>
+      <mat-error *ngIf="formGroup.get('estate')?.hasError('pattern')">Estate number must be a number.</mat-error>
+      <mat-error *ngIf="formGroup.get('estate')?.hasError('maxlength')">Maximal Length is 10.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Apartment number</mat-label>
+      <input matInput type="text" formControlName="apartment">
+      <mat-error *ngIf="formGroup.get('apartment')?.hasError('maxlength')">Maximal Length is 10.</mat-error>
+
+    </mat-form-field>
+  </div>
 </form>
 
 <h2 class="container">Product or service.</h2>

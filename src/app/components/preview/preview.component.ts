@@ -1,12 +1,14 @@
+import { DateService } from './../../date/date.service';
 import { select, Store } from '@ngrx/store';
 import {
+  selectCompanyClientData,
   selectCompanyData,
   selectInvoiceData,
 } from 'src/app/invoiceData/invoiceData.selectors';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   clearState,
-  fetchOurCompanyData,
+  fetchCompanyData,
 } from 'src/app/invoiceData/invoiceData.actions';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,11 +27,21 @@ export class PreviewComponent implements OnInit, OnDestroy {
   totalPrice: number = 0;
   displayedColumns: string[] = ['name', 'quantity', 'price'];
   dataSource = new MatTableDataSource<InvoiceItem>([]);
-  private destroy$ = new Subject<void>();
   companyData$: Observable<InvoiceCompany | null>;
+  companyClientData$: Observable<InvoiceCompany | null>;
+  today: string;
+  futureDate: string;
 
-  constructor(private store: Store<{ invoiceData: InvoiceState }>) {
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private store: Store<{ invoiceData: InvoiceState }>,
+    private dateService: DateService
+  ) {
     this.companyData$ = this.store.select(selectCompanyData);
+    this.companyClientData$ = this.store.select(selectCompanyClientData);
+    this.today = this.dateService.getTodayDate();
+    this.futureDate = this.dateService.futureDate();
   }
 
   ngOnInit(): void {
@@ -41,7 +53,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
         this.totalPrice = this.countTotalPrice(data);
       });
 
-    this.store.dispatch(fetchOurCompanyData());
+    this.store.dispatch(fetchCompanyData());
   }
 
   ngOnDestroy(): void {

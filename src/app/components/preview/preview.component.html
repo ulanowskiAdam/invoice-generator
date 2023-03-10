@@ -1,12 +1,59 @@
-<div class="container" *ngIf="(companyData$ | async) as companyData">
-  <h1>{{ companyData.name }}</h1>
-  <h2>{{ companyData.country}}</h2>
-  <p>Phone:{{ companyData.phones?.join(", ") }}</p>
+<div class="container">
+
+  <div class="header-container">
+    <h1>Invoice</h1>
+  </div>
+  <mat-card *ngIf="(companyData$ | async) as companyData">
+    <p class="card-paragraph">{{ companyData.name }}</p>
+    <p class="card-paragraph">{{ companyData.taxNumber}}</p>
+    <p class="card-paragraph">{{ companyData.city}}</p>
+    <div class="card-street">
+      <p class="card-paragraph">{{ companyData.street}}</p>
+      <p class="card-paragraph">{{ companyData.estate}}</p>
+      <p class="card-paragraph" *ngIf="companyData.apartment.length > 0"> / </p>
+      <p class="card-paragraph">{{ companyData.apartment}}</p>
+    </div>
+    <p class="card-paragraph">Phone:{{ companyData.phones?.join(", ") }}</p>
+  </mat-card>
+</div>
+
+<div class="container">
+  <mat-card *ngIf="(companyClientData$ | async) as companyClientData">
+    <h2 class="highlight-text">Billed to</h2>
+    <p class="card-paragraph">{{ companyClientData.name }}</p>
+    <p class="card-paragraph">{{ companyClientData.taxNumber}}</p>
+    <p class="card-paragraph">{{ companyClientData.country}}</p>
+    <p class="card-paragraph">{{ companyClientData.city}}</p>
+    <div class="card-street">
+      <p class="card-paragraph">{{ companyClientData.street}}</p>
+      <p class="card-paragraph">{{ companyClientData.estate}}</p>
+      <p class="card-paragraph" *ngIf="companyClientData.apartment.length > 0"> / </p>
+      <p class="card-paragraph">{{ companyClientData.apartment}}</p>
+    </div>
+  </mat-card>
+  <div class="detail-container" *ngIf="dataSource.data.length">
+    <div class="detail-item-container">
+      <p class="highlight-text">Date issued</p>
+      <p>{{today}}</p>
+    </div>
+    <div class="detail-item-container">
+      <p class="highlight-text">Due Date </p>
+      <p>{{futureDate}}</p>
+    </div>
+    <div class="detail-item-container">
+      <p class="highlight-text">Total Amount </p>
+      <p>{{totalPrice }} PLN</p>
+    </div>
+    <div>
+
+    </div>
+  </div>
+
 </div>
 
 <mat-divider></mat-divider>
 
-<mat-table class="container" *ngIf="dataSource.data.length; else noData" [dataSource]="dataSource">
+<mat-table class=" table" *ngIf="dataSource.data.length; else noData" [dataSource]="dataSource">
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
@@ -22,7 +69,7 @@
   <ng-container matColumnDef="price">
     <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
     <mat-cell *matCellDef="let element">{{ element.price }}</mat-cell>
-    <mat-footer-cell *matFooterCellDef>Sum:{{ totalPrice }}</mat-footer-cell>
+    <mat-footer-cell *matFooterCellDef>Sum:{{ totalPrice }} PLN</mat-footer-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

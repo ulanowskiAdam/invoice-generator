@@ -1,3 +1,46 @@
 .container{
-  padding: 15px;
+  display: grid;
+  grid-template-columns: 47% 47%;
+  gap: 6%;
+  margin: 20px 10px;
+}
+.header-container{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+    h1{
+      font-size: 56px;
+      font-weight: 400;
+    }
+
+}
+.card-paragraph{
+  margin: 3px;
+
+}
+.card-street{
+  display: flex;
+  flex-direction: row;
+}
+
+.detail-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: baseline;
+}
+
+.detail-item-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: top;
+  margin: 10px;
+}
+
+.highlight-text{
+  color: #4B0082;
+  font-weight: 500;
+
 }
