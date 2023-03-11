@@ -1,81 +1,85 @@
-<div class="container">
+<button *ngIf="dataSource.data.length" (click)="onSave()" mat-raised-button color="primary">Save as PDF</button>
+<div id="parentDiv">
 
-  <div class="header-container">
-    <h1>Invoice</h1>
-  </div>
-  <mat-card *ngIf="(companyData$ | async) as companyData">
-    <p class="card-paragraph">{{ companyData.name }}</p>
-    <p class="card-paragraph">{{ companyData.taxNumber}}</p>
-    <p class="card-paragraph">{{ companyData.city}}</p>
-    <div class="card-street">
-      <p class="card-paragraph">{{ companyData.street}}</p>
-      <p class="card-paragraph">{{ companyData.estate}}</p>
-      <p class="card-paragraph" *ngIf="companyData.apartment.length > 0"> / </p>
-      <p class="card-paragraph">{{ companyData.apartment}}</p>
-    </div>
-    <p class="card-paragraph">Phone:{{ companyData.phones?.join(", ") }}</p>
-  </mat-card>
-</div>
+  <div class="container">
 
-<div class="container">
-  <mat-card *ngIf="(companyClientData$ | async) as companyClientData">
-    <h2 class="highlight-text">Billed to</h2>
-    <p class="card-paragraph">{{ companyClientData.name }}</p>
-    <p class="card-paragraph">{{ companyClientData.taxNumber}}</p>
-    <p class="card-paragraph">{{ companyClientData.country}}</p>
-    <p class="card-paragraph">{{ companyClientData.city}}</p>
-    <div class="card-street">
-      <p class="card-paragraph">{{ companyClientData.street}}</p>
-      <p class="card-paragraph">{{ companyClientData.estate}}</p>
-      <p class="card-paragraph" *ngIf="companyClientData.apartment.length > 0"> / </p>
-      <p class="card-paragraph">{{ companyClientData.apartment}}</p>
+    <div class="header-container">
+      <h1>Invoice</h1>
     </div>
-  </mat-card>
-  <div class="detail-container" *ngIf="dataSource.data.length">
-    <div class="detail-item-container">
-      <p class="highlight-text">Date issued</p>
-      <p>{{today}}</p>
-    </div>
-    <div class="detail-item-container">
-      <p class="highlight-text">Due Date </p>
-      <p>{{futureDate}}</p>
-    </div>
-    <div class="detail-item-container">
-      <p class="highlight-text">Total Amount </p>
-      <p>{{totalPrice }} PLN</p>
-    </div>
-    <div>
-
+    <div *ngIf="(companyData$ | async) as companyData">
+      <p class="card-paragraph">{{ companyData.name }}</p>
+      <p class="card-paragraph">{{ companyData.taxNumber}}</p>
+      <p class="card-paragraph">{{ companyData.city}}</p>
+      <div class="card-street">
+        <p class="card-paragraph">{{ companyData.street}}</p>
+        <p class="card-paragraph">{{ companyData.estate}}</p>
+        <p class="card-paragraph" *ngIf="companyData.apartment.length > 0"> / </p>
+        <p class="card-paragraph">{{ companyData.apartment}}</p>
+      </div>
+      <p class="card-paragraph">Phone:{{ companyData.phones?.join(", ") }}</p>
     </div>
   </div>
 
+  <div class="container">
+    <div *ngIf="(companyClientData$ | async) as companyClientData">
+      <h2 class="highlight-text">Billed to</h2>
+      <p class="card-paragraph">{{ companyClientData.name }}</p>
+      <p class="card-paragraph">{{ companyClientData.taxNumber}}</p>
+      <p class="card-paragraph">{{ companyClientData.country}}</p>
+      <p class="card-paragraph">{{ companyClientData.city}}</p>
+      <div class="card-street">
+        <p class="card-paragraph">{{ companyClientData.street}}</p>
+        <p class="card-paragraph">{{ companyClientData.estate}}</p>
+        <p class="card-paragraph" *ngIf="companyClientData.apartment.length > 0"> / </p>
+        <p class="card-paragraph">{{ companyClientData.apartment}}</p>
+      </div>
+    </div>
+    <div class="detail-container" *ngIf="dataSource.data.length">
+      <div class="detail-item-container">
+        <p class="highlight-text">Date issued</p>
+        <p>{{today}}</p>
+      </div>
+      <div class="detail-item-container">
+        <p class="highlight-text">Due Date </p>
+        <p>{{futureDate}}</p>
+      </div>
+      <div class="detail-item-container">
+        <p class="highlight-text">Total Amount </p>
+        <p>{{totalPrice }} PLN</p>
+      </div>
+      <div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <mat-table class=" table" *ngIf="dataSource.data.length; else noData" [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+      <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
+      <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.price }}</mat-cell>
+      <mat-footer-cell *matFooterCellDef>Sum:{{ totalPrice }} PLN</mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
+  </mat-table>
+  <ng-template #noData>
+    <p class="container">No items</p>
+  </ng-template>
 </div>
-
-<mat-divider></mat-divider>
-
-<mat-table class=" table" *ngIf="dataSource.data.length; else noData" [dataSource]="dataSource">
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="quantity">
-    <mat-header-cell *matHeaderCellDef>Quantity</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
-    <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="price">
-    <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{ element.price }}</mat-cell>
-    <mat-footer-cell *matFooterCellDef>Sum:{{ totalPrice }} PLN</mat-footer-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
-</mat-table>
-<ng-template #noData>
-  <p class="container">No items</p>
-</ng-template>

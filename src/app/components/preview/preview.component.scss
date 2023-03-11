@@ -44,3 +44,21 @@
   font-weight: 500;
 
 }
+
+@media  (max-width: 768px) {
+
+  .container{
+
+    grid-template-columns: 100%;
+
+  }
+
+}
+
+@media print {
+  .container{
+
+    grid-template-columns: 47% 47%;
+
+  }
+}

@@ -17,6 +17,7 @@ import {
   InvoiceItem,
   InvoiceState,
 } from 'src/app/invoiceData/invoiceData.interfaces';
+import { PdfService } from 'src/app/pdf/pdf.service';
 
 @Component({
   selector: 'app-preview',
@@ -36,7 +37,8 @@ export class PreviewComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<{ invoiceData: InvoiceState }>,
-    private dateService: DateService
+    private dateService: DateService,
+    private pdfService: PdfService
   ) {
     this.companyData$ = this.store.select(selectCompanyData);
     this.companyClientData$ = this.store.select(selectCompanyClientData);
@@ -60,6 +62,10 @@ export class PreviewComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
     this.store.dispatch(clearState());
+  }
+
+  onSave(): void {
+    this.pdfService.generatePdfFromHtmlElement('parentDiv', 'invoice.pdf');
   }
 
   private countTotalPrice(invoiceItems: InvoiceItem[]): number {
