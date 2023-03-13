@@ -1,3 +1,4 @@
+import { SnackBarService } from '../../services/snackBar/snackBar';
 import { Component, OnInit } from '@angular/core';
 import {
   FormArray,
@@ -43,6 +44,7 @@ export class FormComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
+        // Validators.pattern('/^[0-9]*$/'),
       ],
     }),
     city: new FormControl('', {
@@ -51,6 +53,7 @@ export class FormComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
+        // Validators.pattern('/^[0-9]*$/'),
       ],
     }),
     street: new FormControl('', {
@@ -63,11 +66,7 @@ export class FormComponent implements OnInit {
     }),
     estate: new FormControl('', {
       nonNullable: true,
-      validators: [
-        Validators.required,
-        Validators.maxLength(10),
-        Validators.pattern('^[0-9]*$'),
-      ],
+      validators: [Validators.required, Validators.maxLength(10)],
     }),
     apartment: new FormControl('', {
       nonNullable: true,
@@ -78,7 +77,7 @@ export class FormComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store,
-    private snackBar: MatSnackBar
+    private snackBarService: SnackBarService
   ) {
     this.addNewItem();
   }
@@ -135,9 +134,7 @@ export class FormComponent implements OnInit {
 
   public onSubmit() {
     if (this.formArray.length === 0) {
-      this.snackBar.open('add item', 'Close', {
-        duration: 3000,
-      });
+      this.snackBarService.openSnackBar('add item', 'Close');
       return;
     }
     this.formArray.markAllAsTouched();

@@ -1,4 +1,5 @@
-import { DateService } from './../../date/date.service';
+import { SnackBarService } from '../../services/snackBar/snackBar';
+import { DateService } from '../../services/date/date.service';
 import { select, Store } from '@ngrx/store';
 import {
   selectCompanyClientData,
@@ -17,7 +18,7 @@ import {
   InvoiceItem,
   InvoiceState,
 } from 'src/app/invoiceData/invoiceData.interfaces';
-import { PdfService } from 'src/app/pdf/pdf.service';
+import { PdfService } from 'src/app/services/pdf/pdf.service';
 
 @Component({
   selector: 'app-preview',
@@ -38,7 +39,8 @@ export class PreviewComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<{ invoiceData: InvoiceState }>,
     private dateService: DateService,
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    private snackBarService: SnackBarService
   ) {
     this.companyData$ = this.store.select(selectCompanyData);
     this.companyClientData$ = this.store.select(selectCompanyClientData);
@@ -66,9 +68,10 @@ export class PreviewComponent implements OnInit, OnDestroy {
 
   onSave(): void {
     this.pdfService.generatePdfFromHtmlElement('parentDiv', 'invoice.pdf');
+    this.snackBarService.openSnackBar('Invoice saved', 'close');
   }
 
-  private countTotalPrice(invoiceItems: InvoiceItem[]): number {
+  countTotalPrice(invoiceItems: InvoiceItem[]): number {
     return invoiceItems.reduce((total: number, item: InvoiceItem) => {
       return total + item.quantity * item.price;
     }, 0);
