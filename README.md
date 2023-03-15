@@ -10,12 +10,10 @@ Project is created with:
 - Rxjs
 - Ngrx store and effects
 - Angular Material
+- Scss
 
 ## Setup
 
 To run this project, install it locally:
 
-```
-$ run `ng serve` for a dev server. Navigate to http://localhost:4200/
-
-```
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
