@@ -1,6 +1,6 @@
 ## General info
 
-This project is invoice generator.
+This project is an invoice generator.
 
 ## Technologies
 

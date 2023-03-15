@@ -44,7 +44,7 @@ export class FormComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
-        // Validators.pattern('/^[0-9]*$/'),
+
       ],
     }),
     city: new FormControl('', {
@@ -53,7 +53,7 @@ export class FormComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
-        // Validators.pattern('/^[0-9]*$/'),
+
       ],
     }),
     street: new FormControl('', {
