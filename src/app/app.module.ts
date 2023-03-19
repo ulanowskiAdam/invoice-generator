@@ -18,6 +18,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
 import { InvoiceDataEffects } from './invoiceData/invoiceData.effects';
+import { CompanyFinderComponent } from './components/company-browser/company-finder.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { InvoiceDataEffects } from './invoiceData/invoiceData.effects';
     FormComponent,
     NavigationComponent,
     PreviewComponent,
+    CompanyFinderComponent,
   ],
   imports: [
     BrowserModule,

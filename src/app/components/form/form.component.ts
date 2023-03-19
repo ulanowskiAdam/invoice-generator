@@ -44,7 +44,6 @@ export class FormComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
-
       ],
     }),
     city: new FormControl('', {
@@ -53,7 +52,6 @@ export class FormComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(30),
-
       ],
     }),
     street: new FormControl('', {

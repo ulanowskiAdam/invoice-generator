@@ -1,0 +1,15 @@
+<h2>Search the company by the NIP</h2>
+<form [formGroup]="formGroup">
+  <mat-form-field class="form-field" appearance="fill">
+    <mat-label>Tax identify number</mat-label>
+    <input matInput type="text" formControlName="taxNumber">
+    <mat-error *ngIf="formGroup.get('taxNumber')?.hasError('required')">Tax identify number is
+      required.</mat-error>
+    <mat-error *ngIf="formGroup.get('taxNumber')?.hasError('pattern')">Tax identify number must be a
+      number.</mat-error>
+  </mat-form-field>
+</form>
+
+<button (click)="onSubmit()" mat-raised-button color="primary">
+  <span>submit</span>
+</button>
